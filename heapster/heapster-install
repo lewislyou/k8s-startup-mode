@@ -1,0 +1,22 @@
+#!/bin/bash
+
+
+#ensure dir maked
+cli download -f ensure-setup-dir.sh
+source ensure-setup-dir.sh
+
+cd ${KUBE_TEMP}
+#download heapster.tar.gz
+cli download -f heapster.tar.gz
+tar -xf heapster.tar.gz
+
+#source config-default
+cli listenv -g config-default -e 1 > config-default
+source config-default
+
+
+#install heapster 
+sudo cp -r ${KUBE_TEMP}/heapster/bin /opt/kubernetes
+sudo chmod -R +x /opt/kubernetes/bin
+sudo bash ${KUBE_TEMP}/heapster/scripts/heapster.sh ${MASTER_IP}
+echo "Done"

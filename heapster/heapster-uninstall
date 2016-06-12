@@ -1,0 +1,16 @@
+#!/bin/bash
+KUBE_TEMP=${HOME}/kube_temp
+
+function tear-down-heapster(){
+echo "[INFO] tear-down-heapster"
+set -x
+   heapster_service_file="/usr/lib/systemd/system/heapster.service"
+   sudo systemctl stop heapster
+   sudo systemctl disable heapster
+   sudo rm -f ${heapster_service_file}
+   sudo rm -rf /opt/kubernetes
+   sudo rm -rf ${KUBE_TEMP}
+set +x
+echo "Done"
+}
+tear-down-heapster

@@ -1,0 +1,13 @@
+# common setting
+
+# etcd
+
+cli download -f ensure-setup-dir.sh
+source ./ensure-setup-dir.sh
+cli download -f etcd-baolei.sh
+chmod a+x etcd-baolei.sh
+cli download -f etcd
+sudo mv etcd /opt/kubernetes/bin
+sudo chmod -R +x /opt/kubernetes/bin
+sudo bash ./etcd-baolei.sh 
+
