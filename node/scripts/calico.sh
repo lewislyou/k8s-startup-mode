@@ -19,6 +19,7 @@ EOF
 mkdir -p /opt/cni/bin
 cp ~/kube_temp/node/bin/calico /opt/cni/bin
 chmod +x /opt/cni/bin/calico
+mkdir -p /opt/bin
 cp ~/kube_temp/node/bin/calicoctl /opt/bin
 chmod +x /opt/bin/calicoctl
 

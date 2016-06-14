@@ -4,11 +4,9 @@
 
 # warn: GROUP is the name of configuration group, which is unique for every kubernetes cluster, select one name different from others, or you'll overlay other's configuration group
 GROUP=$1
-DEFAULT_CONFIG_FILE=/opt/kubernetes/cfg/config
-LOCAL_ADDRESS=`ip addr |grep -oE 'inet \w+.\w+.\w+.\w+' |awk '{print $2}'|grep '172.16'`
 
 ########################################## common options ################################################
-MASTER_IP=${LOCAL_ADDRESS}
+MASTER_IP="172.16.16.113"
 OVERLAY_TYPE="calico"
 SERVICE_CLUSTER_IP_RANGE="192.168.3.0/24"
 POD_INFRA_IMAGE="reg.local:5000/pause:2.0"
@@ -22,9 +20,7 @@ DNS_SERVER_IP="192.168.3.10"
 DNS_DOMAIN="cluster.local"
 
 # etcd
-ETCD_HOST=172.16.16.113
-ETCD_PORT=4001
-ETCD_SERVERS=http://${ETCD_HOST}:${ETCD_PORT}
+ETCD_SERVERS="http://172.16.16.113:4001"
 
 
 
@@ -357,7 +353,7 @@ function add_env() {
 }
 
 function print_usage() {
-   echo -e "/path/kube-up.sh groupname delete|update|master|node [options].for example:\n/path/kube-up.sh configname delete\n/path/kube-up.sh configname update\n/path/kube-up.sh configname master\n/path/kube-up.sh configname node_address"
+   echo -e "/path/kube-up.sh groupname delete|update|master|node [options].for example:\n/path/kube-up.sh configname delete\n/path/kube-up.sh configname update\n/path/kube-up.sh configname master\n/path/kube-up.sh configname node node_address"
 }
 
 
