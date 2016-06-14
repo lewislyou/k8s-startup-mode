@@ -1,24 +1,18 @@
 #!/bin/bash
-# common setting
 
 CONFIG_DEFAULT_GROUP=${1:-"config"}
 CONFIG_FILE_PATH="/opt/kubernetes/cfg/config"
+ROOT=$(dirname "${BASH_SOURCE}")
 
 # stop firewalld
 systemctl stop firewalld
 systemctl disable firewalld
 
-cli download -f ensure-setup-dir.sh
 source ensure-setup-dir.sh
-cp ensure-setup-dir.sh ${KUBE_TEMP}
-cd ${KUBE_TEMP}
-cli download -f make-ca-cert.sh
 
+cp make-ca-cert.sh ${KUBE_TEMP}
 chmod -R +x ${KUBE_TEMP}
-
-cli download -f master.tar.gz
-tar -xf master.tar.gz 
-rm -f master.tar.gz
+cp -r ${ROOT}/master ${KUBE_TEMP}
 
 cli listenv -g ${CONFIG_DEFAULT_GROUP} > ${CONFIG_FILE_PATH}
 source ${CONFIG_FILE_PATH}
@@ -43,7 +37,6 @@ sudo bash ${KUBE_TEMP}/master/scripts/apiserver.sh
 sudo bash ${KUBE_TEMP}/master/scripts/controller-manager.sh 
 #bash scheduler-setup.sh
 sudo bash ${KUBE_TEMP}/master/scripts/scheduler.sh 
-cli download -f master-config.sh
-chmod a+x master-config.sh
-./master-config.sh ${KUBE_TEMP}
+
+./master-config.sh 
 echo "Done."

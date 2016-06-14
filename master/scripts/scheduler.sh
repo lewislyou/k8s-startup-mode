@@ -19,7 +19,6 @@
 KUBE_SCHEDULER_OPTS="   \${SCHEDULER_KUBE_LOGTOSTDERR}     \\
                         \${SCHEDULER_KUBE_LOG_LEVEL}       \\
                         \${SCHEDULER_KUBE_MASTER}          \\
-			\${SCHEDULER_KUBE_SCHEDULER_LEADER_ELECT}	\\
                         \${SCHEDULER_KUBE_SCHEDULER_ARGS}"
 
 cat <<EOF >/usr/lib/systemd/system/kube-scheduler.service

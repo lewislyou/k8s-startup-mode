@@ -20,8 +20,7 @@ KUBE_CONTROLLER_MANAGER_OPTS="  \${CONTROLLER_KUBE_LOGTOSTDERR} \\
                                 \${CONTROLLER_KUBE_LOG_LEVEL}   \\
                                 \${CONTROLLER_KUBE_MASTER}      \\
                                 \${CONTROLLER_KUBE_CONTROLLER_MANAGER_ROOT_CA_FILE} \\
-				\${CONTROLLER_KUBE_CONTROLLER_MANAGER_LEADER_ELECT}	\\
-                                \${CONTROLLERKUBE_CONTROLLER_MANAGER_SERVICE_ACCOUNT_PRIVATE_KEY_FILE}"
+                                \${CONTROLLER_KUBE_CONTROLLER_MANAGER_SERVICE_ACCOUNT_PRIVATE_KEY_FILE}"
 
 cat <<EOF >/usr/lib/systemd/system/kube-controller-manager.service
 [Unit]

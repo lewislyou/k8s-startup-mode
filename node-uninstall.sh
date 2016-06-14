@@ -1,9 +1,9 @@
 #!/bin/bash
 
-KUBE_TEMP=${HOME}/kube_temp
+source ensure-setup-dir.sh
 
 function tear-down-node() {
-echo "[INFO] tear-down-node"
+  echo "[INFO] tear-down-node"
   for service_name in kube-proxy kubelet docker flannel calico-node; 
   do
       service_file="/usr/lib/systemd/system/${service_name}.service"

@@ -92,7 +92,7 @@ SCHEDULER_KUBE_LOGTOSTDERR="--logtostderr=true"
 # --V=0: log level for v logs
 SCHEDULER_KUBE_LOG_LEVEL="--v=4"
 
-SCHEDULER_KUBE_SCHEDULER_LEADER_ELECT="--leader_elect=true"
+#SCHEDULER_KUBE_SCHEDULER_LEADER_ELECT="--leader_elect=true"
 
 SCHEDULER_KUBE_MASTER="--master=${MASTER_IP}:8080"
 
@@ -111,10 +111,10 @@ CONTROLLER_KUBE_MASTER="--master=${MASTER_IP}:8080"
 # service account's token secret. This must be a valid PEM-encoded CA bundle.
 CONTROLLER_KUBE_CONTROLLER_MANAGER_ROOT_CA_FILE="--root-ca-file=/srv/kubernetes/ca.crt"
 
-CONTROLLER_KUBE_CONTROLLER_MANAGER_LEADER_ELECT="--leader-elect=true"
+#CONTROLLER_KUBE_CONTROLLER_MANAGER_LEADER_ELECT="--leader-elect=true"
 # --service-account-private-key-file="": Filename containing  a PEM-encoded private
 # RSA key used to sign service account tokens.
-CONTROLLER_KUBE_CONTROLLER_MANAGER_SERVICE_ACCOUNT_PRIVATE_KEY_FILE="--service-account-private-key-fiLe=/srv/kubernetes/server.key"
+CONTROLLER_KUBE_CONTROLLER_MANAGER_SERVICE_ACCOUNT_PRIVATE_KEY_FILE="--service-account-private-key-file=/srv/kubernetes/server.key"
 
 
 
@@ -233,7 +233,7 @@ function del_env() {
    cli delenv -k SCHEDULER_KUBE_LOGTOSTDERR -g ${GROUP}
    cli delenv -k SCHEDULER_KUBE_LOG_LEVEL -g ${GROUP}
    cli delenv -k SCHEDULER_KUBE_MASTER -g ${GROUP}
-   cli delenv -k SCHEDULER_KUBE_SCHEDULER_LEADER_ELECT -g ${GROUP}
+#   cli delenv -k SCHEDULER_KUBE_SCHEDULER_LEADER_ELECT -g ${GROUP}
    cli delenv -k SCHEDULER_KUBE_SCHEDULER_ARGS -g ${GROUP}
 
 # controller-manager options
@@ -241,7 +241,7 @@ function del_env() {
    cli delenv -k CONTROLLER_KUBE_LOG_LEVEL -g ${GROUP}
    cli delenv -k CONTROLLER_KUBE_MASTER -g ${GROUP}
    cli delenv -k CONTROLLER_KUBE_CONTROLLER_MANAGER_ROOT_CA_FILE -g ${GROUP}
-   cli delenv -k CONTROLLER_KUBE_CONTROLLER_MANAGER_LEADER_ELECT -g ${GROUP}
+#   cli delenv -k CONTROLLER_KUBE_CONTROLLER_MANAGER_LEADER_ELECT -g ${GROUP}
    cli delenv -k CONTROLLER_KUBE_CONTROLLER_MANAGER_SERVICE_ACCOUNT_PRIVATE_KEY_FILE -g ${GROUP}
 
 # flannel options
@@ -310,7 +310,7 @@ function add_env() {
    cli addenv -k SCHEDULER_KUBE_LOGTOSTDERR -v "\"${SCHEDULER_KUBE_LOGTOSTDERR}\"" -g ${GROUP}
    cli addenv -k SCHEDULER_KUBE_LOG_LEVEL -v "\"${SCHEDULER_KUBE_LOG_LEVEL}\"" -g ${GROUP}
    cli addenv -k SCHEDULER_KUBE_MASTER -v "\"${SCHEDULER_KUBE_MASTER}\"" -g ${GROUP}
-   cli addenv -k SCHEDULER_KUBE_SCHEDULER_LEADER_ELECT -v "\"${SCHEDULER_KUBE_SCHEDULER_LEADER_ELECT}\"" -g ${GROUP}
+#   cli addenv -k SCHEDULER_KUBE_SCHEDULER_LEADER_ELECT -v "\"${SCHEDULER_KUBE_SCHEDULER_LEADER_ELECT}\"" -g ${GROUP}
    cli addenv -k SCHEDULER_KUBE_SCHEDULER_ARGS -v "\"${SCHEDULER_KUBE_SCHEDULER_ARGS}\"" -g ${GROUP}
 
 # controller-manager options
@@ -318,7 +318,7 @@ function add_env() {
    cli addenv -k CONTROLLER_KUBE_LOG_LEVEL -v "\"${CONTROLLER_KUBE_LOG_LEVEL}\"" -g ${GROUP}
    cli addenv -k CONTROLLER_KUBE_MASTER -v "\"${CONTROLLER_KUBE_MASTER}\"" -g ${GROUP}
    cli addenv -k CONTROLLER_KUBE_CONTROLLER_MANAGER_ROOT_CA_FILE -v "\"${CONTROLLER_KUBE_CONTROLLER_MANAGER_ROOT_CA_FILE}\"" -g ${GROUP}
-   cli addenv -k CONTROLLER_KUBE_CONTROLLER_MANAGER_LEADER_ELECT -v "\"${CONTROLLER_KUBE_CONTROLLER_MANAGER_LEADER_ELECT}\"" -g ${GROUP}
+#   cli addenv -k CONTROLLER_KUBE_CONTROLLER_MANAGER_LEADER_ELECT -v "\"${CONTROLLER_KUBE_CONTROLLER_MANAGER_LEADER_ELECT}\"" -g ${GROUP}
    cli addenv -k CONTROLLER_KUBE_CONTROLLER_MANAGER_SERVICE_ACCOUNT_PRIVATE_KEY_FILE -v "\"${CONTROLLER_KUBE_CONTROLLER_MANAGER_SERVICE_ACCOUNT_PRIVATE_KEY_FILE}\"" -g ${GROUP}
 
 # flannel options
@@ -357,29 +357,28 @@ function add_env() {
 }
 
 function print_usage() {
-   echo "/path/kube-up.sh groupname delete|update|master|node [options].for example:\n/path/kube-up.sh configname delete\n/path/kube-up.sh configname update\n/path/kube-up.sh configname master\n/path/kube-up.sh node node_address"
+   echo -e "/path/kube-up.sh groupname delete|update|master|node [options].for example:\n/path/kube-up.sh configname delete\n/path/kube-up.sh configname update\n/path/kube-up.sh configname master\n/path/kube-up.sh configname node_address"
 }
 
-#install_docker
+
 case $2 in
    "delete")
+      echo "[INFO] delete previous pushed variables"
       del_env
       ;;
    "update")
+      echo "[INFO] delete previous pushed variables"
       del_env
+      echo "[INFO] fresh variables"
       add_env
       ;;
    "master")
-      cli download -f master-install.sh
-      chmod +x master-install.sh
-      ./master-install ${GROUP}
+      ./master-install.sh ${GROUP}
       ;;
    "node")
-      cli download -f node-install.sh
-      chmod +x node-install.sh
-      ./node-install $3 ${GROUP}
+      ./node-install.sh $3 ${GROUP}
       ;;
-   "*")
+   *)
       print_usage
       ;;
 esac

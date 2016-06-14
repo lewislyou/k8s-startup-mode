@@ -1,8 +1,9 @@
 #!/bin/bash
 
-KUBE_TEMP=$1
+CONFIG_FILE_PATH="/opt/kubernetes/cfg/config"
+source ${CONFIG_FILE_PATH}
 # set CONTEXT and KUBE_SERVER values for create-kubeconfig() and get-password()
-source ${KUBE_TEMP}/config-default
+
 KUBECONFIG="${HOME}/.kube/config"
 
 if [[ ! -e "${KUBECONFIG}" ]]; then
@@ -21,7 +22,7 @@ apiVersion: v1
 clusters:
 - cluster:
     insecure-skip-tls-verfy: true
-    server: http://${MASTER}:8080
+    server: http://${MASTER_IP}:8080
   name: centos
 contexts:
 - context:

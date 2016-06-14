@@ -1,4 +1,5 @@
 #!/bin/bash
+
 KUBE_TEMP="${HOME}/kube_temp"
 
 function ensure-setup-dir() {
