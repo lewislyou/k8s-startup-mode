@@ -37,9 +37,6 @@ cp -r ${ROOT}/node ${KUBE_TEMP}
 if [[ "${OVERLAY_TYPE}" = "flannel" ]]; then
    overlay_opt="${ETCD_SERVERS} ${FLANNEL_NET}"
 else
-   sudo mkdir -p /opt/bin
-   cp ${KUBE_TEMP}/node/bin/calicoctl /opt/bin
-   chmod +x /opt/bin
    overlay_opt="${NODE_IP}"
 fi
 
