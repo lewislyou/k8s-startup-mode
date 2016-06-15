@@ -22,11 +22,6 @@ cert_ip=$1
 extra_sans=${2:-}
 cert_dir=${CERT_DIR:-/srv/kubernetes}
 cert_group=${CERT_GROUP:-kube-cert}
-grep "^${cert_group}" /etc/group
-if [ $? -ne 0 ]
-then
-   groupadd -g 344 ${cert_group}
-fi
 
 mkdir -p "$cert_dir"
 

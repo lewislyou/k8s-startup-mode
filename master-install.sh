@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -x
 CONFIG_DEFAULT_GROUP=${1:-"config"}
 CONFIG_FILE_PATH="/opt/kubernetes/cfg/config"
 ROOT=$(dirname "${BASH_SOURCE}")
@@ -29,7 +29,7 @@ fi
 sudo cp -r ${KUBE_TEMP}/master/bin /opt/kubernetes
 sudo chmod -R +x /opt/kubernetes/bin
 master_ip=${MASTER_IP}
-sudo bash ${KUBE_TEMP}/make-ca-cert.sh ${master_ip} IP:${master_ip},IP:${API_SERVICE_CLUSTER_IP_RANGE%.*}.1,DNS:kubernetes,DNS:kubernetes.default,DNS:kubernetes.default.svc,DNS:kubernetes.default.svc.cluster.local
+sudo bash ${KUBE_TEMP}/make-ca-cert.sh ${master_ip} IP:${master_ip},IP:${SERVICE_CLUSTER_IP_RANGE%.*}.1,DNS:kubernetes,DNS:kubernetes.default,DNS:kubernetes.default.svc,DNS:kubernetes.default.svc.cluster.local
 #cd -
 #bash apiserver-setup.sh 
 sudo bash ${KUBE_TEMP}/master/scripts/apiserver.sh 
