@@ -18,6 +18,16 @@ FLANNEL_NET="172.28.0.0/16"
 ADMISSION_CONTROL="NamespaceLifecycle,NamespaceExists,LimitRanger,ServiceAccount,ResourceQuota,SecurityContextDeny"
 DNS_SERVER_IP="192.168.3.10" 
 DNS_DOMAIN="cluster.local"
+DNS_REPLICAS=1
+# Optional: Install cluster DNS.
+ENABLE_CLUSTER_DNS="${KUBE_ENABLE_CLUSTER_DNS:-false}"
+# DNS_SERVER_IP must be a IP in SERVICE_CLUSTER_IP_RANGE
+# Optional: Install Kubernetes mornitor
+ENABLE_CLUSTER_MONITOR="${KUBE_ENABLE_CLUSTER_MONITOR:-false}"
+# Optional: Install Kubernetes logging
+ENABLE_CLUSTER_LOGGING="${KUBE_ENABLE_CLUSTER_LOGGING:-false}"
+# Optional: Install Kubernetes kubedash
+ENABLE_CLUSTER_KUBEDASH="${KUBE_ENABLE_CLUSTER_KUBEDASH:-false}"
 
 # etcd
 ETCD_SERVERS="http://172.16.16.113:4001"
@@ -205,7 +215,13 @@ function del_env() {
    cli delenv -k FLANNEL_NET -g ${GROUP}
    cli delenv -k DNS_SERVER_IP -g ${GROUP}
    cli delenv -k DNS_DOMAIN -g ${GROUP}
+   cli delenv -k DNS_REPLICAS -g ${GROUP}
    cli delenv -k POD_INFRA_IMAGE -g ${GROUP}
+
+   cli delenv -k ENABLE_CLUSTER_DNS -g ${GROUP}
+   cli delenv -k ENABLE_CLUSTER_MONITOR -g ${GROUP}
+   cli delenv -k ENABLE_CLUSTER_LOGGING -g ${GROUP}
+   cli delenv -k ENABLE_CLUSTER_KUBEDASH -g ${GROUP}
 
    cli delenv -k SERVICE_CLUSTER_IP_RANGE -g ${GROUP}
 # apiserver options
@@ -281,7 +297,13 @@ function add_env() {
    cli addenv -k FLANNEL_NET -v "\"${FLANNEL_NET}\"" -g ${GROUP}
    cli addenv -k DNS_SERVER_IP -v "\"${DNS_SERVER_IP}\"" -g ${GROUP}
    cli addenv -k DNS_DOMAIN -v "\"${DNS_DOMAIN}\"" -g ${GROUP}
+   cli addenv -k DNS_REPLICAS -v "\"${DNS_REPLICAS}\"" -g ${GROUP}
    cli addenv -k POD_INFRA_IMAGE -v "\"${POD_INFRA_IMAGE}\"" -g ${GROUP}
+
+   cli addenv -k ENABLE_CLUSTER_DNS -v "\"${ENABLE_CLUSTER_DNS}\"" -g ${GROUP}
+   cli addenv -k ENABLE_CLUSTER_MONITOR -v "\"${ENABLE_CLUSTER_MONITOR}\"" -g ${GROUP}
+   cli addenv -k ENABLE_CLUSTER_LOGGING -v "\"${ENABLE_CLUSTER_LOGGING}\"" -g ${GROUP}
+   cli addenv -k ENABLE_CLUSTER_KUBEDASH -v "\"${ENABLE_CLUSTER_KUBEDASH}\"" -g ${GROUP}
 
    cli addenv -k SERVICE_CLUSTER_IP_RANGE -v "\"${SERVICE_CLUSTER_IP_RANGE}\"" -g ${GROUP}
 
